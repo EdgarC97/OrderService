@@ -1,0 +1,23 @@
+﻿services:
+  orderservice:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env.production
+    volumes:
+      - dataprotection-keys:/app/DataProtection-Keys
+    depends_on:
+      - db
+
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    env_file:
+      - .env.production
+    ports:
+      - "1433:1433"
+
+volumes:
+  dataprotection-keys:
